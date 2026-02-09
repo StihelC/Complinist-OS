@@ -96,7 +96,7 @@ Successfully integrated AI services (LLM, embeddings, ChromaDB) directly into El
 - `scripts/start-ai-services.sh` - External service management removed
 - `scripts/ai-cli.ts` - Used external services
 
-#### Updated: `launch.sh`
+#### Updated: `launch.sh` (now at project root)
 - Simplified to only launch Electron app
 - Removed AI service startup/shutdown logic
 - Removed port checking logic

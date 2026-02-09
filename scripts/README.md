@@ -15,8 +15,7 @@ scripts/
 │   ├── afterPack.cjs
 │   └── sourcemap-optimizer.js
 ├── dev/                     # Development/launch scripts
-│   ├── launch.sh
-│   └── complinist-launcher.sh
+│   └── compliflow-launcher.sh
 ├── ingestion/               # Ingestion scripts
 │   ├── ingest_compliance_docs.py
 │   ├── ingest_nist_800_53.py
@@ -58,8 +57,9 @@ These scripts are actively used in the build process, package.json, or deploymen
 - `sourcemap-optimizer.js` - Source map optimization utility
 
 ### Development/Launch Scripts (`dev/`)
-- `launch.sh` - Application launcher script
-- `complinist-launcher.sh` - AppImage launcher (used in builds)
+- `compliflow-launcher.sh` - AppImage launcher (used in builds)
+
+> **Note**: The main `launch.sh` has been moved to the project root.
 
 ### Ingestion Scripts (`ingestion/`)
 - `ingest_compliance_docs.py` - Ingest compliance documents into ChromaDB
@@ -136,7 +136,7 @@ For scripts not exposed via npm, run them directly:
 node scripts/utils/create-icons.js
 
 # Example: Launch application
-./scripts/dev/launch.sh start
+./launch.sh start
 ```
 
 ## Notes
