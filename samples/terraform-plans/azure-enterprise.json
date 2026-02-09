@@ -1,0 +1,450 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.6.0",
+  "planned_values": {},
+  "resource_changes": [
+    {
+      "address": "azurerm_resource_group.main",
+      "type": "azurerm_resource_group",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "tags": { "Environment": "production", "CostCenter": "IT-12345" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_virtual_network.hub",
+      "type": "azurerm_virtual_network",
+      "name": "hub",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "hub-vnet",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "address_space": ["10.0.0.0/16"],
+          "tags": { "Name": "Hub VNet", "Purpose": "connectivity" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_virtual_network.spoke_app",
+      "type": "azurerm_virtual_network",
+      "name": "spoke_app",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "spoke-app-vnet",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "address_space": ["10.1.0.0/16"],
+          "tags": { "Name": "Application Spoke VNet" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_virtual_network.spoke_data",
+      "type": "azurerm_virtual_network",
+      "name": "spoke_data",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "spoke-data-vnet",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "address_space": ["10.2.0.0/16"],
+          "tags": { "Name": "Data Spoke VNet" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_subnet.gateway",
+      "type": "azurerm_subnet",
+      "name": "gateway",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "GatewaySubnet",
+          "resource_group_name": "enterprise-prod-rg",
+          "virtual_network_name": "hub-vnet",
+          "address_prefixes": ["10.0.0.0/24"]
+        }
+      }
+    },
+    {
+      "address": "azurerm_subnet.firewall",
+      "type": "azurerm_subnet",
+      "name": "firewall",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "AzureFirewallSubnet",
+          "resource_group_name": "enterprise-prod-rg",
+          "virtual_network_name": "hub-vnet",
+          "address_prefixes": ["10.0.1.0/24"]
+        }
+      }
+    },
+    {
+      "address": "azurerm_subnet.app",
+      "type": "azurerm_subnet",
+      "name": "app",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "app-subnet",
+          "resource_group_name": "enterprise-prod-rg",
+          "virtual_network_name": "spoke-app-vnet",
+          "address_prefixes": ["10.1.1.0/24"]
+        }
+      }
+    },
+    {
+      "address": "azurerm_subnet.data",
+      "type": "azurerm_subnet",
+      "name": "data",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "data-subnet",
+          "resource_group_name": "enterprise-prod-rg",
+          "virtual_network_name": "spoke-data-vnet",
+          "address_prefixes": ["10.2.1.0/24"]
+        }
+      }
+    },
+    {
+      "address": "azurerm_network_security_group.app",
+      "type": "azurerm_network_security_group",
+      "name": "app",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "app-nsg",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "tags": { "Name": "Application NSG" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_network_security_group.data",
+      "type": "azurerm_network_security_group",
+      "name": "data",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "data-nsg",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "tags": { "Name": "Data NSG" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_virtual_network_gateway.main",
+      "type": "azurerm_virtual_network_gateway",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprise-vpn-gw",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "type": "Vpn",
+          "vpn_type": "RouteBased",
+          "sku": "VpnGw2",
+          "tags": { "Name": "VPN Gateway" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_application_gateway.main",
+      "type": "azurerm_application_gateway",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprise-appgw",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "sku": { "name": "WAF_v2", "tier": "WAF_v2", "capacity": 2 },
+          "tags": { "Name": "Application Gateway" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_kubernetes_cluster.main",
+      "type": "azurerm_kubernetes_cluster",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprise-aks",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "dns_prefix": "enterprise-aks",
+          "kubernetes_version": "1.28",
+          "default_node_pool": {
+            "name": "system",
+            "node_count": 3,
+            "vm_size": "Standard_D4s_v3"
+          },
+          "tags": { "Name": "AKS Cluster" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_container_registry.main",
+      "type": "azurerm_container_registry",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterpriseacr",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "sku": "Premium",
+          "admin_enabled": false,
+          "tags": { "Name": "Container Registry" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_sql_server.main",
+      "type": "azurerm_sql_server",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprise-sqlserver",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "version": "12.0",
+          "administrator_login": "sqladmin",
+          "tags": { "Name": "SQL Server" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_sql_database.main",
+      "type": "azurerm_sql_database",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprise-db",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "server_name": "enterprise-sqlserver",
+          "edition": "Premium",
+          "tags": { "Name": "Main Database" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_cosmosdb_account.main",
+      "type": "azurerm_cosmosdb_account",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprise-cosmos",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "offer_type": "Standard",
+          "kind": "GlobalDocumentDB",
+          "consistency_policy": { "consistency_level": "Session" },
+          "tags": { "Name": "Cosmos DB" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_redis_cache.main",
+      "type": "azurerm_redis_cache",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprise-redis",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "capacity": 2,
+          "family": "P",
+          "sku_name": "Premium",
+          "tags": { "Name": "Redis Cache" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_storage_account.main",
+      "type": "azurerm_storage_account",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprisestorage",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "account_tier": "Standard",
+          "account_replication_type": "GRS",
+          "tags": { "Name": "Main Storage" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_storage_account.data_lake",
+      "type": "azurerm_storage_account",
+      "name": "data_lake",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprisedatalake",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "account_tier": "Standard",
+          "account_replication_type": "LRS",
+          "is_hns_enabled": true,
+          "tags": { "Name": "Data Lake Storage" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_function_app.api",
+      "type": "azurerm_function_app",
+      "name": "api",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprise-api-func",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "app_service_plan_id": "/subscriptions/.../appserviceplans/enterprise-asp",
+          "tags": { "Name": "API Functions" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_function_app.workers",
+      "type": "azurerm_function_app",
+      "name": "workers",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "enterprise-workers-func",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "app_service_plan_id": "/subscriptions/.../appserviceplans/enterprise-asp",
+          "tags": { "Name": "Worker Functions" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_public_ip.appgw",
+      "type": "azurerm_public_ip",
+      "name": "appgw",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "appgw-pip",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "allocation_method": "Static",
+          "sku": "Standard",
+          "tags": { "Name": "App Gateway Public IP" }
+        }
+      }
+    },
+    {
+      "address": "azurerm_load_balancer.internal",
+      "type": "azurerm_load_balancer",
+      "name": "internal",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "internal-lb",
+          "resource_group_name": "enterprise-prod-rg",
+          "location": "eastus2",
+          "sku": "Standard",
+          "tags": { "Name": "Internal Load Balancer" }
+        }
+      }
+    }
+  ]
+}

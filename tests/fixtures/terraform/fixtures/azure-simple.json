@@ -1,0 +1,82 @@
+{
+  "format_version": "1.0",
+  "terraform_version": "1.5.0",
+  "resource_changes": [
+    {
+      "address": "azurerm_virtual_network.main",
+      "type": "azurerm_virtual_network",
+      "name": "main",
+      "provider_name": "azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "main-vnet",
+          "address_space": ["10.0.0.0/16"]
+        }
+      }
+    },
+    {
+      "address": "azurerm_subnet.public",
+      "type": "azurerm_subnet",
+      "name": "public",
+      "provider_name": "azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "public-subnet",
+          "virtual_network_name": "azurerm_virtual_network.main.name",
+          "address_prefixes": ["10.0.1.0/24"]
+        }
+      }
+    },
+    {
+      "address": "azurerm_network_security_group.web",
+      "type": "azurerm_network_security_group",
+      "name": "web",
+      "provider_name": "azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "web-nsg"
+        }
+      }
+    },
+    {
+      "address": "azurerm_virtual_machine.web",
+      "type": "azurerm_virtual_machine",
+      "name": "web",
+      "provider_name": "azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "web-vm",
+          "vm_size": "Standard_B1s",
+          "network_interface_ids": ["azurerm_network_interface.web.id"]
+        }
+      }
+    },
+    {
+      "address": "azurerm_sql_database.main",
+      "type": "azurerm_sql_database",
+      "name": "main",
+      "provider_name": "azurerm",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "main-db"
+        }
+      }
+    }
+  ]
+}
+

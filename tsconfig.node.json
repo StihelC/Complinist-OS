@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+
+    "incremental": true,
+    "tsBuildInfoFile": "./.build-cache/tsc/.tsbuildinfo.node"
+  },
+  "include": ["vite.config.ts", "electron/**/*"]
+}
+

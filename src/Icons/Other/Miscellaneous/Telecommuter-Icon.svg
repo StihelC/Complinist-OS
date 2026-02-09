@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="38.946667"
+   height="33.279999"
+   viewBox="0 0 38.946667 33.279999"
+   sodipodi:docname="telecommuter icon.eps"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath2">
+      <path
+         d="M 0,250 H 290 V 0 H 0 Z"
+         id="path2" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4">
+      <path
+         d="M 0,250 H 290 V 0 H 0 Z"
+         id="path4" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath6">
+      <path
+         d="M 0,250 H 290 V 0 H 0 Z"
+         id="path6" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:page
+       x="0"
+       y="0"
+       inkscape:label="1"
+       id="page1"
+       width="38.946667"
+       height="33.279999"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <g
+     id="g1"
+     inkscape:groupmode="layer"
+     inkscape:label="1">
+    <path
+       id="path1"
+       d="M 159.199,209.715 90,212.137 56.1445,176.055 77.0898,159.012 95.2422,178.758 137.129,177.305 91.3672,117.754 107.727,102.629 81.4648,67.4414 38.4258,68.9453 7.08203,54.9023 28.7969,9.89063 54.9688,8.97266 54.7266,18.8867 41.3555,19.3438 42.0508,39.1211 106.016,36.8945 141.887,80.4766 228.738,0 272.98,49.6953 262.273,59.9688 243.516,39.668 l -70.43,67.09 29.863,38.543 26.731,-18.399 61.582,-2.148 0.847,24.426 -44.14,1.543 -88.77,58.992"
+       style="fill:#036998;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,33.28)"
+       clip-path="url(#clipPath2)" />
+    <path
+       id="path3"
+       d="m 188.672,249.648 51.172,-1.777 -1.895,-54.68 -51.179,1.789 1.902,54.668"
+       style="fill:#036998;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,33.28)"
+       clip-path="url(#clipPath4)" />
+    <path
+       id="path5"
+       d="M 34.0234,184.434 92.4219,135.438 58.3789,94.8711 0,143.867 34.0234,184.434"
+       style="fill:#036998;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,33.28)"
+       clip-path="url(#clipPath6)" />
+  </g>
+</svg>

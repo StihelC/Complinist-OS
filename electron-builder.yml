@@ -1,0 +1,116 @@
+appId: com.complinist.desktop
+productName: CompliNist
+copyright: Copyright © 2024
+
+afterPack: scripts/build/afterPack.cjs
+
+# Native module rebuild settings for cross-platform builds
+npmRebuild: true
+buildDependenciesFromSource: false
+
+directories:
+  buildResources: build
+  output: release
+
+files:
+  - dist/**/*
+  - electron/**/*
+  - package.json
+  - node_modules/**/*
+  - "!node_modules/**/*.{md,ts,map}"
+  # Exclude only deps/src; keep build/ so better_sqlite3.node is packaged (and unpacked via asarUnpack)
+  - "!node_modules/better-sqlite3/deps/**/*"
+  - "!node_modules/better-sqlite3/src/**/*"
+
+# Unpack native .node modules so they can load (required for better-sqlite3)
+asarUnpack:
+  - "**/node_modules/better-sqlite3/**/*.node"
+  - "**/node_modules/bindings/**"
+
+# Extra resources are placed in process.resourcesPath (resources/ directory)
+# On Windows: resources/ folder next to the executable (portable) or in app directory (NSIS installer)
+extraResources:
+  # AI models - NOT bundled for open-core builds
+  # Users configure their own models path via Settings > AI Model Configuration
+  # Uncomment below to bundle models for full/enterprise builds:
+  # - from: ".data/models"
+  #   to: "models"
+  #   filter:
+  #     - "**/*.gguf"
+  # Shared data (ChromaDB, etc.)
+  - from: ".data/shared"
+    to: "shared"
+    filter:
+      - "**/*"
+
+win:
+  # Skip signing/asar-integrity step when building without code-sign certs (avoids winCodeSign download that fails on Windows without symlink privilege)
+  signAndEditExecutable: false
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
+  icon: build/icon.ico
+  publisherName: CompliNist
+  requestedExecutionLevel: asInvoker
+
+linux:
+  target:
+    - target: tar.gz
+      arch:
+        - x64
+    - target: deb
+      arch:
+        - x64
+  category: Office
+  icon: build/icon.png
+  desktop:
+    Name: CompliNist
+    Comment: NIST Compliance and System Security Planning Tool
+    Categories: Office;Security;
+    StartupWMClass: complinist-desktop
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: CompliNist
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeaderIcon: build/icon.ico
+
+deb:
+  depends:
+    - libnss3
+    - libatk-bridge2.0-0
+    - libdrm2
+    - libxkbcommon0
+    - libxcomposite1
+    - libxdamage1
+    - libxfixes3
+    - libxrandr2
+    - libgbm1
+    - libasound2
+
+rpm:
+  depends:
+    - nss
+    - atk
+    - libdrm
+    - libxkbcommon
+    - libXcomposite
+    - libXdamage
+    - libXfixes
+    - libXrandr
+    - mesa-libgbm
+    - alsa-lib
+
+publish:
+  provider: github
+  owner: StihelC
+  repo: CompliFlow
+

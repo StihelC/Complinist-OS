@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  compliflow:
+    build: .
+    container_name: compliflow
+    ports:
+      - "3000:3000"
+    volumes:
+      # Persist data between restarts
+      - compliflow-data:/data
+      # Mount models directory (download separately due to size)
+      - ./models:/data/models:ro
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATA_DIR=/data
+      - MODELS_DIR=/data/models
+      - CHROMA_DIR=/data/shared/chroma_db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  compliflow-data:
+    driver: local
+
+# To run with models:
+# 1. Create a 'models' directory next to docker-compose.yml
+# 2. Download the models:
+#    - mistral-7b-instruct-v0.1.Q4_K_M.gguf
+#    - bge-m3-FP16.gguf
+# 3. Run: docker-compose up -d
+#
+# Access at: http://localhost:3000

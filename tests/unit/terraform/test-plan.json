@@ -1,0 +1,232 @@
+{
+  "format_version": "1.0",
+  "terraform_version": "1.5.0",
+  "resource_changes": [
+    {
+      "address": "aws_vpc.main",
+      "type": "aws_vpc",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "cidr_block": "10.0.0.0/16",
+          "enable_dns_hostnames": true,
+          "enable_dns_support": true,
+          "tags": {
+            "Name": "main-vpc"
+          }
+        }
+      }
+    },
+    {
+      "address": "aws_subnet.public",
+      "type": "aws_subnet",
+      "name": "public",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "vpc_id": "aws_vpc.main.id",
+          "cidr_block": "10.0.1.0/24",
+          "availability_zone": "us-east-1a",
+          "map_public_ip_on_launch": true,
+          "tags": {
+            "Name": "public-subnet"
+          }
+        }
+      }
+    },
+    {
+      "address": "aws_subnet.private",
+      "type": "aws_subnet",
+      "name": "private",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "vpc_id": "aws_vpc.main.id",
+          "cidr_block": "10.0.2.0/24",
+          "availability_zone": "us-east-1b",
+          "map_public_ip_on_launch": false,
+          "tags": {
+            "Name": "private-subnet"
+          }
+        }
+      }
+    },
+    {
+      "address": "aws_internet_gateway.main",
+      "type": "aws_internet_gateway",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "vpc_id": "aws_vpc.main.id",
+          "tags": {
+            "Name": "main-igw"
+          }
+        }
+      }
+    },
+    {
+      "address": "aws_route_table.public",
+      "type": "aws_route_table",
+      "name": "public",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "vpc_id": "aws_vpc.main.id",
+          "route": [
+            {
+              "cidr_block": "0.0.0.0/0",
+              "gateway_id": "aws_internet_gateway.main.id"
+            }
+          ],
+          "tags": {
+            "Name": "public-rt"
+          }
+        }
+      }
+    },
+    {
+      "address": "aws_security_group.web",
+      "type": "aws_security_group",
+      "name": "web",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "web-sg",
+          "description": "Security group for web servers",
+          "vpc_id": "aws_vpc.main.id",
+          "ingress": [
+            {
+              "from_port": 80,
+              "to_port": 80,
+              "protocol": "tcp",
+              "cidr_blocks": ["0.0.0.0/0"]
+            },
+            {
+              "from_port": 443,
+              "to_port": 443,
+              "protocol": "tcp",
+              "cidr_blocks": ["0.0.0.0/0"]
+            }
+          ],
+          "egress": [
+            {
+              "from_port": 0,
+              "to_port": 0,
+              "protocol": "-1",
+              "cidr_blocks": ["0.0.0.0/0"]
+            }
+          ],
+          "tags": {
+            "Name": "web-sg"
+          }
+        }
+      }
+    },
+    {
+      "address": "aws_instance.web",
+      "type": "aws_instance",
+      "name": "web",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "ami": "ami-0c55b159cbfafe1f0",
+          "instance_type": "t3.micro",
+          "subnet_id": "aws_subnet.public.id",
+          "vpc_security_group_ids": ["aws_security_group.web.id"],
+          "user_data": "#!/bin/bash\necho 'Hello World' > /var/www/html/index.html",
+          "tags": {
+            "Name": "web-server"
+          }
+        }
+      }
+    },
+    {
+      "address": "aws_db_instance.main",
+      "type": "aws_db_instance",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "engine": "postgres",
+          "engine_version": "14.9",
+          "instance_class": "db.t3.micro",
+          "allocated_storage": 20,
+          "storage_type": "gp3",
+          "db_name": "mydb",
+          "username": "admin",
+          "password": "CHANGE_ME",
+          "db_subnet_group_name": "aws_db_subnet_group.main.name",
+          "vpc_security_group_ids": ["aws_security_group.db.id"],
+          "backup_retention_period": 7,
+          "storage_encrypted": true,
+          "tags": {
+            "Name": "main-db"
+          }
+        }
+      }
+    },
+    {
+      "address": "aws_s3_bucket.data",
+      "type": "aws_s3_bucket",
+      "name": "data",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "bucket": "my-test-data-bucket",
+          "tags": {
+            "Name": "data-bucket",
+            "Environment": "test"
+          }
+        }
+      }
+    },
+    {
+      "address": "aws_s3_bucket_versioning.data",
+      "type": "aws_s3_bucket_versioning",
+      "name": "data",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "bucket": "aws_s3_bucket.data.id",
+          "versioning_configuration": {
+            "status": "Enabled"
+          }
+        }
+      }
+    }
+  ]
+}
+
+

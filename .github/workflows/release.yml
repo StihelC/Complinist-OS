@@ -1,0 +1,314 @@
+name: Build and Release
+
+# This workflow builds and publishes releases to GitHub Releases
+# It can also be used for testing builds in CI/CD
+# For production releases with S3 upload, use build-release.sh locally
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v1.0.0)'
+        required: true
+        type: string
+      include_models:
+        description: 'Include AI models (requires COMPLIFLOW_DATA_URL secret)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: win
+          - os: ubuntu-latest
+            platform: linux
+
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # Linux-specific dependencies for electron and native modules
+      - name: Install Linux dependencies
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 \
+            libatk-bridge2.0-0 \
+            libdrm2 \
+            libxkbcommon0 \
+            libxcomposite1 \
+            libxdamage1 \
+            libxfixes3 \
+            libxrandr2 \
+            libgbm1 \
+            libasound2t64 \
+            libgtk-3-0 \
+            libnotify4 \
+            libxss1 \
+            libxtst6 \
+            xvfb
+
+      # Windows-specific: Install Visual Studio Build Tools for native modules
+      - name: Setup Windows build tools
+        if: matrix.platform == 'win'
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Rebuild native modules for Electron
+      - name: Rebuild native modules
+        run: npm run postinstall
+
+      - name: Build frontend
+        run: npx vite build
+
+      # Create version tag for GitHub release (if it doesn't exist)
+      - name: Setup version tag
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch --tags
+          if git rev-parse "${{ inputs.version }}" >/dev/null 2>&1; then
+            echo "Tag ${{ inputs.version }} already exists"
+            # Update tag to point to current commit if needed
+            git tag -f "${{ inputs.version }}"
+            git push origin "${{ inputs.version }}" --force
+          else
+            echo "Creating new tag ${{ inputs.version }}"
+            git tag "${{ inputs.version }}"
+            git push origin "${{ inputs.version }}"
+          fi
+
+      # Always create data directories (electron-builder expects them even if empty)
+      - name: Setup data directories
+        shell: bash
+        run: |
+          mkdir -p .data/models
+          mkdir -p .data/shared
+
+      - name: Download CompliFlow data (Linux)
+        if: matrix.platform == 'linux' && inputs.include_models
+        env:
+          DATA_URL: ${{ secrets.COMPLIFLOW_DATA_URL }}
+        run: |
+          if [ -n "$DATA_URL" ]; then
+            echo "Downloading CompliFlow data archive..."
+            curl -L "$DATA_URL" -o compliflow-data.tar.gz
+            tar -xzf compliflow-data.tar.gz -C .data/
+            rm compliflow-data.tar.gz
+            echo "Data extracted to .data/"
+          else
+            echo "WARNING: No COMPLIFLOW_DATA_URL secret configured."
+            echo "Building without AI models - app will work but AI features disabled."
+          fi
+
+      - name: Download CompliFlow data (Windows)
+        if: matrix.platform == 'win' && inputs.include_models
+        shell: pwsh
+        env:
+          DATA_URL: ${{ secrets.COMPLIFLOW_DATA_URL }}
+        run: |
+          if (-not $env:DATA_URL) {
+            Write-Error "COMPLIFLOW_DATA_URL secret is required when include_models is true"
+            exit 1
+          }
+          Write-Host "Downloading CompliFlow data archive..."
+          Invoke-WebRequest -Uri $env:DATA_URL -OutFile compliflow-data.tar.gz
+          tar -xzf compliflow-data.tar.gz -C .data/
+          Remove-Item compliflow-data.tar.gz
+          Write-Host "Data extracted to .data/"
+          
+          # Verify models directory exists and has files
+          if (-not (Test-Path ".data/models") -or (Get-ChildItem ".data/models" -Recurse -File | Measure-Object).Count -eq 0) {
+            Write-Error "Models directory is empty or missing after extraction"
+            exit 1
+          }
+          Write-Host "Models verified: $((Get-ChildItem '.data/models' -Recurse -File | Measure-Object -Property Length -Sum).Sum / 1GB) GB"
+
+      # Build Electron app
+      - name: Build Electron app (Windows)
+        if: matrix.platform == 'win'
+        run: npm run electron:build:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Electron app (Linux)
+        if: matrix.platform == 'linux'
+        run: npm run electron:build:linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Create release archive with AI models (Windows)
+      - name: Create Windows archive with models
+        if: matrix.platform == 'win' && inputs.include_models
+        shell: pwsh
+        run: |
+          Write-Host "Creating Windows archive with AI models..."
+          npm run release:package:win
+          
+          # Verify zip was created
+          $zipFile = Get-ChildItem -Path "release" -Filter "CompliFlow-*-win-x64.zip" | Select-Object -First 1
+          if (-not $zipFile) {
+            Write-Error "Failed to create Windows zip archive"
+            exit 1
+          }
+          Write-Host "Archive created: $($zipFile.Name) ($([math]::Round($zipFile.Length / 1GB, 2)) GB)"
+
+      # Create release archive with AI models (Linux)
+      - name: Create Linux archive with models
+        if: matrix.platform == 'linux' && inputs.include_models
+        run: npm run release:package:linux
+
+      # Smoke test: verify the built app actually launches
+      - name: Smoke test (Windows)
+        if: matrix.platform == 'win'
+        shell: pwsh
+        run: node scripts/build/smoke-test.js --platform=win
+
+      - name: Smoke test (Linux)
+        if: matrix.platform == 'linux'
+        run: xvfb-run --auto-servernum node scripts/build/smoke-test.js --platform=linux
+
+      # Generate checksums for security verification
+      - name: Generate checksums (Windows)
+        if: matrix.platform == 'win'
+        shell: pwsh
+        run: |
+          cd release
+          Get-ChildItem -Filter "*.exe" | ForEach-Object {
+            $hash = Get-FileHash $_.Name -Algorithm SHA256
+            "$($hash.Hash)  $($_.Name)" | Out-File -Append -FilePath checksums-win.txt
+          }
+
+      - name: Generate checksums (Linux)
+        if: matrix.platform == 'linux'
+        run: |
+          cd release
+          sha256sum *.AppImage *.deb 2>/dev/null > checksums-linux.txt || true
+
+      # Upload to S3 (Windows with models)
+      - name: Setup AWS CLI (Windows)
+        if: matrix.platform == 'win' && inputs.include_models
+        shell: pwsh
+        run: |
+          # Check if AWS CLI is already installed
+          if (Get-Command aws -ErrorAction SilentlyContinue) {
+            Write-Host "AWS CLI already installed:"
+            aws --version
+          } else {
+            Write-Host "Installing AWS CLI..."
+            $awsCliUrl = "https://awscli.amazonaws.com/AWSCLIV2.msi"
+            $installerPath = "$env:TEMP\AWSCLIV2.msi"
+            Invoke-WebRequest -Uri $awsCliUrl -OutFile $installerPath
+            Start-Process msiexec.exe -ArgumentList "/i $installerPath /quiet" -Wait
+            # Refresh PATH
+            $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+            # Verify installation
+            $awsPath = "$env:ProgramFiles\Amazon\AWSCLIV2\aws.exe"
+            if (Test-Path $awsPath) {
+              & $awsPath --version
+            } else {
+              Write-Error "AWS CLI installation failed"
+              exit 1
+            }
+          }
+
+      - name: Configure AWS credentials
+        if: matrix.platform == 'win' && inputs.include_models
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
+
+      - name: Upload Windows zip to S3
+        if: matrix.platform == 'win' && inputs.include_models
+        shell: pwsh
+        env:
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
+          S3_REGION: ${{ secrets.AWS_REGION || 'us-east-1' }}
+          VERSION_TAG: ${{ inputs.version }}
+        run: |
+          $version = $env:VERSION_TAG -replace '^v', ''
+          $zipFile = Get-ChildItem -Path "release" -Filter "CompliFlow-*-win-x64.zip" | Select-Object -First 1
+          
+          if (-not $zipFile) {
+            Write-Error "Windows zip file not found in release directory"
+            exit 1
+          }
+          
+          $s3Path = "releases/$env:VERSION_TAG/$($zipFile.Name)"
+          $s3Uri = "s3://$env:S3_BUCKET/$s3Path"
+          
+          Write-Host "Uploading $($zipFile.Name) to $s3Uri"
+          aws s3 cp "$($zipFile.FullName)" "$s3Uri" --region "$env:S3_REGION"
+          
+          Write-Host "Setting public-read permissions..."
+          aws s3api put-object-acl --bucket "$env:S3_BUCKET" --key "$s3Path" --acl public-read --region "$env:S3_REGION"
+          
+          $downloadUrl = "https://$env:S3_BUCKET.s3.$env:S3_REGION.amazonaws.com/$s3Path"
+          Write-Host "Upload complete! Download URL: $downloadUrl"
+          echo "DOWNLOAD_URL=$downloadUrl" >> $env:GITHUB_ENV
+
+      # Upload artifacts for download
+      - name: Upload Windows artifacts
+        if: matrix.platform == 'win'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-builds
+          path: |
+            release/*.exe
+            release/*.zip
+            release/checksums-win.txt
+          retention-days: 5
+
+      - name: Upload Linux artifacts
+        if: matrix.platform == 'linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-builds
+          path: |
+            release/*.AppImage
+            release/*.deb
+            release/*.tar.gz
+            release/checksums-linux.txt
+          retention-days: 5
+
+      # Summary
+      - name: Build Summary
+        if: matrix.platform == 'win' && inputs.include_models
+        shell: pwsh
+        run: |
+          Write-Host ""
+          Write-Host "========================================"
+          Write-Host "  Windows Build with AI Models Summary"
+          Write-Host "========================================"
+          Write-Host ""
+          $zipFile = Get-ChildItem -Path "release" -Filter "CompliFlow-*-win-x64.zip" | Select-Object -First 1
+          if ($zipFile) {
+            Write-Host "✓ Archive created: $($zipFile.Name)"
+            Write-Host "  Size: $([math]::Round($zipFile.Length / 1GB, 2)) GB"
+          }
+          if ($env:DOWNLOAD_URL) {
+            Write-Host "✓ Uploaded to S3: $env:DOWNLOAD_URL"
+          }
+          Write-Host ""

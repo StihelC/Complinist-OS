@@ -1,0 +1,104 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Reserved Windows device names (ignore if accidentally created)
+nul
+CON
+PRN
+AUX
+
+# Production
+dist/
+build/*
+!build/icon.ico
+!build/icon.png
+*.sqlite
+*.db
+
+# Build cache
+.build-cache/
+
+# Testing
+coverage/
+test-results/
+playwright-report/
+
+# Misc
+.DS_Store
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Backup files
+*.backup
+
+# Electron
+out/
+release/
+*.exe
+*.AppImage
+*.deb
+*.rpm
+*.dmg
+squashfs-root/
+
+# AI Models (large files, should not be committed)
+*.gguf
+.data/models/*.gguf
+
+# Runtime data
+.data/*
+!.data/shared
+.data/shared/*
+!.data/shared/chroma_db
+.ai-services/
+.ai-cli-history.json
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Large archives and build artifacts
+*.tar.gz
+*.zip
+
+# Database directories
+**/chroma_db/
+!.data/shared/chroma_db
+!.data/shared/chroma_db/**
+src/chroma_db/
+
+# Large example files
+examples/NIST OSCAL/
+examples/NISTDocuments.zip
+compliflow-data.tar.gz
+
+# Tool-generated directories
+.automaker/
+
+# AI Memory Files (local/personal)
+CLAUDE.local.md

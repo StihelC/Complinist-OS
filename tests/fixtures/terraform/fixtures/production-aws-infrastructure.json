@@ -1,0 +1,482 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.5.0",
+  "planned_values": {
+    "root_module": {}
+  },
+  "resource_changes": [
+    {
+      "address": "aws_vpc.production",
+      "type": "aws_vpc",
+      "name": "production",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "vpc-prod-001",
+          "cidr_block": "10.0.0.0/16",
+          "enable_dns_hostnames": true,
+          "enable_dns_support": true,
+          "tags": {
+            "Name": "Production VPC",
+            "Environment": "production"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_subnet.web_public_1",
+      "type": "aws_subnet",
+      "name": "web_public_1",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "subnet-web1-001",
+          "vpc_id": "vpc-prod-001",
+          "cidr_block": "10.0.1.0/24",
+          "availability_zone": "us-east-1a",
+          "map_public_ip_on_launch": true,
+          "tags": {
+            "Name": "Public Web Subnet AZ1",
+            "Tier": "web"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_subnet.web_public_2",
+      "type": "aws_subnet",
+      "name": "web_public_2",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "subnet-web2-002",
+          "vpc_id": "vpc-prod-001",
+          "cidr_block": "10.0.2.0/24",
+          "availability_zone": "us-east-1b",
+          "map_public_ip_on_launch": true,
+          "tags": {
+            "Name": "Public Web Subnet AZ2",
+            "Tier": "web"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_subnet.app_private_1",
+      "type": "aws_subnet",
+      "name": "app_private_1",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "subnet-app1-003",
+          "vpc_id": "vpc-prod-001",
+          "cidr_block": "10.0.10.0/24",
+          "availability_zone": "us-east-1a",
+          "tags": {
+            "Name": "Private App Subnet AZ1",
+            "Tier": "application"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_subnet.app_private_2",
+      "type": "aws_subnet",
+      "name": "app_private_2",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "subnet-app2-004",
+          "vpc_id": "vpc-prod-001",
+          "cidr_block": "10.0.11.0/24",
+          "availability_zone": "us-east-1b",
+          "tags": {
+            "Name": "Private App Subnet AZ2",
+            "Tier": "application"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_subnet.data_private_1",
+      "type": "aws_subnet",
+      "name": "data_private_1",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "subnet-data1-005",
+          "vpc_id": "vpc-prod-001",
+          "cidr_block": "10.0.20.0/24",
+          "availability_zone": "us-east-1a",
+          "tags": {
+            "Name": "Private Data Subnet AZ1",
+            "Tier": "database"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_security_group.alb",
+      "type": "aws_security_group",
+      "name": "alb",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "sg-alb-001",
+          "vpc_id": "vpc-prod-001",
+          "name": "alb-security-group",
+          "description": "Security group for Application Load Balancer",
+          "tags": {
+            "Name": "ALB Security Group"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_security_group.web",
+      "type": "aws_security_group",
+      "name": "web",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "sg-web-002",
+          "vpc_id": "vpc-prod-001",
+          "name": "web-security-group",
+          "description": "Security group for web tier EC2 instances",
+          "tags": {
+            "Name": "Web Tier Security Group"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_security_group.app",
+      "type": "aws_security_group",
+      "name": "app",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "sg-app-003",
+          "vpc_id": "vpc-prod-001",
+          "name": "app-security-group",
+          "description": "Security group for application tier",
+          "tags": {
+            "Name": "Application Tier Security Group"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_security_group.database",
+      "type": "aws_security_group",
+      "name": "database",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "sg-db-004",
+          "vpc_id": "vpc-prod-001",
+          "name": "database-security-group",
+          "description": "Security group for database tier",
+          "tags": {
+            "Name": "Database Security Group"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_lb.main",
+      "type": "aws_lb",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "arn:aws:elasticloadbalancing:us-east-1:123456789:loadbalancer/app/prod-alb/abc123",
+          "load_balancer_type": "application",
+          "subnets": ["subnet-web1-001", "subnet-web2-002"],
+          "security_groups": ["sg-alb-001"],
+          "tags": {
+            "Name": "Production Application Load Balancer"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_instance.web_1",
+      "type": "aws_instance",
+      "name": "web_1",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "i-web1-001",
+          "instance_type": "t3.large",
+          "ami": "ami-0c55b159cbfafe1f0",
+          "subnet_id": "subnet-web1-001",
+          "vpc_security_group_ids": ["sg-web-002"],
+          "tags": {
+            "Name": "Web Server 1 - AZ1",
+            "Role": "webserver",
+            "Tier": "web"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_instance.web_2",
+      "type": "aws_instance",
+      "name": "web_2",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "i-web2-002",
+          "instance_type": "t3.large",
+          "ami": "ami-0c55b159cbfafe1f0",
+          "subnet_id": "subnet-web2-002",
+          "vpc_security_group_ids": ["sg-web-002"],
+          "tags": {
+            "Name": "Web Server 2 - AZ2",
+            "Role": "webserver",
+            "Tier": "web"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_instance.app_1",
+      "type": "aws_instance",
+      "name": "app_1",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "i-app1-003",
+          "instance_type": "t3.xlarge",
+          "ami": "ami-0c55b159cbfafe1f0",
+          "subnet_id": "subnet-app1-003",
+          "vpc_security_group_ids": ["sg-app-003"],
+          "tags": {
+            "Name": "Application Server 1 - AZ1",
+            "Role": "appserver",
+            "Tier": "application"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_instance.app_2",
+      "type": "aws_instance",
+      "name": "app_2",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "i-app2-004",
+          "instance_type": "t3.xlarge",
+          "ami": "ami-0c55b159cbfafe1f0",
+          "subnet_id": "subnet-app2-004",
+          "vpc_security_group_ids": ["sg-app-003"],
+          "tags": {
+            "Name": "Application Server 2 - AZ2",
+            "Role": "appserver",
+            "Tier": "application"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_db_instance.primary",
+      "type": "aws_db_instance",
+      "name": "primary",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "production-db-primary",
+          "engine": "postgres",
+          "engine_version": "15.3",
+          "instance_class": "db.r6g.xlarge",
+          "allocated_storage": 500,
+          "storage_encrypted": true,
+          "multi_az": true,
+          "db_subnet_group_name": "production-db-subnet-group",
+          "vpc_security_group_ids": ["sg-db-004"],
+          "tags": {
+            "Name": "Production PostgreSQL Primary",
+            "Tier": "database"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_elasticache_cluster.redis",
+      "type": "aws_elasticache_cluster",
+      "name": "redis",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "production-redis",
+          "engine": "redis",
+          "engine_version": "7.0",
+          "node_type": "cache.r6g.large",
+          "num_cache_nodes": 2,
+          "subnet_group_name": "production-cache-subnet-group",
+          "security_group_ids": ["sg-db-004"],
+          "tags": {
+            "Name": "Production Redis Cluster"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_s3_bucket.application_assets",
+      "type": "aws_s3_bucket",
+      "name": "application_assets",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "production-app-assets-2024",
+          "bucket": "production-app-assets-2024",
+          "tags": {
+            "Name": "Application Assets Bucket"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_s3_bucket.backups",
+      "type": "aws_s3_bucket",
+      "name": "backups",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "production-backups-2024",
+          "bucket": "production-backups-2024",
+          "tags": {
+            "Name": "Database Backups Bucket"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_lambda_function.api_gateway",
+      "type": "aws_lambda_function",
+      "name": "api_gateway",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "production-api-gateway",
+          "function_name": "production-api-gateway",
+          "runtime": "nodejs20.x",
+          "handler": "index.handler",
+          "memory_size": 1024,
+          "vpc_config": [
+            {
+              "subnet_ids": ["subnet-app1-003", "subnet-app2-004"],
+              "security_group_ids": ["sg-app-003"]
+            }
+          ],
+          "tags": {
+            "Name": "API Gateway Lambda"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_dynamodb_table.user_sessions",
+      "type": "aws_dynamodb_table",
+      "name": "user_sessions",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "id": "production-user-sessions",
+          "name": "production-user-sessions",
+          "billing_mode": "PAY_PER_REQUEST",
+          "hash_key": "sessionId",
+          "tags": {
+            "Name": "User Sessions Table"
+          }
+        },
+        "after_unknown": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,504 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+
+    /* Topology Canvas Spacing Tokens */
+    --topology-spacing-xs: 4px;
+    --topology-spacing-sm: 8px;
+    --topology-spacing-md: 12px;
+    --topology-spacing-lg: 16px;
+    --topology-spacing-xl: 24px;
+
+    /* Topology Toolbar Tokens */
+    --topology-toolbar-offset: 8px;
+    --topology-toolbar-gap: 4px;
+    --topology-button-size: 32px;
+    --topology-panel-width: 380px;
+    --topology-panel-offset-top: 8px;
+
+    /* Properties Panel Sizing Tokens - Consistent across all panel types */
+    --properties-panel-width: 380px;
+    --properties-panel-min-width: 320px;
+    --properties-panel-max-width: 450px;
+    --properties-panel-height: 420px;
+    --properties-panel-min-height: 300px;
+    --properties-panel-max-height: calc(100vh - 120px);
+    --properties-panel-padding: 16px;
+    --properties-panel-header-height: 52px;
+    --properties-panel-border-radius: 8px;
+    --properties-panel-offset: 20px;
+    --properties-panel-z-index: 9999;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* React Flow custom styles */
+.react-flow__node {
+  font-size: 12px;
+}
+
+.react-flow__handle {
+  width: 8px;
+  height: 8px;
+}
+
+.react-flow__edge-path {
+  stroke-width: 2;
+}
+
+/* Enable pointer events on edge interaction areas */
+.react-flow__edge {
+  pointer-events: visibleStroke;
+}
+
+.react-flow__edge path {
+  cursor: pointer;
+}
+
+.react-flow__edge-interaction {
+  pointer-events: stroke;
+}
+
+/* Z-index layering is dynamically managed by DynamicLayerStyles component */
+
+/* Default pointer mode - normal selection cursor */
+.react-flow__pane {
+  cursor: default;
+}
+
+/* Placement mode cursor - crosshair for placing devices */
+.placement-mode {
+  cursor: crosshair !important;
+}
+
+.placement-mode * {
+  cursor: crosshair !important;
+}
+
+.placement-mode .react-flow__pane {
+  cursor: crosshair !important;
+}
+
+/* Boundary drawing mode cursor - crosshair for drawing boundaries */
+.boundary-drawing-mode {
+  cursor: crosshair !important;
+}
+
+.boundary-drawing-mode * {
+  cursor: crosshair !important;
+}
+
+.boundary-drawing-mode .react-flow__pane {
+  cursor: crosshair !important;
+}
+
+/* SSP Form Section Organization - Better spacing between form fields */
+.rjsf .form-group,
+.rjsf fieldset {
+  margin-bottom: 1.5rem;
+}
+
+/* Enhanced SSP Form Styling */
+.ssp-form-wrapper .rjsf {
+  @apply space-y-6;
+}
+
+.ssp-form-wrapper .form-group {
+  @apply mb-4 transition-all duration-200;
+}
+
+.ssp-form-wrapper .field-object {
+  @apply bg-white rounded-lg border border-gray-200 p-6 shadow-sm transition-all duration-200 hover:shadow-md;
+}
+
+.ssp-form-wrapper label.control-label {
+  @apply block text-sm font-semibold text-gray-700 mb-2 transition-colors;
+}
+
+.ssp-form-wrapper .field-description {
+  @apply text-xs text-gray-500 mt-1 italic;
+}
+
+.ssp-form-wrapper input[type="text"],
+.ssp-form-wrapper input[type="email"],
+.ssp-form-wrapper select,
+.ssp-form-wrapper textarea {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200;
+}
+
+.ssp-form-wrapper input[type="text"]:hover,
+.ssp-form-wrapper input[type="email"]:hover,
+.ssp-form-wrapper select:hover,
+.ssp-form-wrapper textarea:hover {
+  @apply border-gray-400;
+}
+
+.ssp-form-wrapper textarea {
+  @apply min-h-[80px] resize-y;
+}
+
+.ssp-form-wrapper .field-radio-group label {
+  @apply flex items-center gap-2 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition-all duration-150;
+}
+
+.ssp-form-wrapper .field-radio-group input[type="radio"] {
+  @apply w-4 h-4 text-blue-600 focus:ring-blue-500;
+}
+
+.ssp-form-wrapper .help-block {
+  @apply text-xs text-gray-500 mt-1;
+}
+
+/* Section markers for organized grouping */
+.ssp-section-basic .field-object,
+.ssp-section-system .field-object,
+.ssp-section-data .field-object,
+.ssp-section-authorization .field-object,
+.ssp-section-generate .field-object {
+  @apply transition-all hover:shadow-md;
+}
+
+/* Required field indicators */
+.ssp-form-wrapper .required::after {
+  content: " *";
+  @apply text-red-500 font-bold;
+}
+
+/* Smooth transitions for interactive elements */
+.transition-smooth {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Enhanced radio button cards */
+.ssp-form-wrapper .unedited-controls-radio label {
+  @apply transition-all duration-200 hover:shadow-md;
+}
+
+.ssp-form-wrapper .unedited-controls-radio input[type="radio"]:checked + div {
+  @apply text-blue-700;
+}
+
+/* Color-coded selection indicators */
+.selection-indicator-low {
+  @apply text-amber-600 bg-amber-50 border-amber-200;
+}
+
+.selection-indicator-medium {
+  @apply text-yellow-600 bg-yellow-50 border-yellow-200;
+}
+
+.selection-indicator-high {
+  @apply text-green-600 bg-green-50 border-green-200;
+}
+
+/* SSP preview boxes */
+.ssp-preview-box {
+  @apply text-xs bg-gray-100 p-2 rounded border-l-2 border-gray-400 font-mono;
+}
+
+/* Loading skeleton animation */
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.skeleton-loading {
+  animation: pulse-subtle 1.5s ease-in-out infinite;
+}
+
+/* Fade in animation for content */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Slide in animation for modals */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.2s ease-out;
+}
+
+/* Topology Canvas Toolbar Styles */
+.topology-toolbar {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: var(--topology-toolbar-gap);
+  z-index: 20;
+}
+
+.topology-toolbar-left {
+  left: var(--topology-toolbar-offset);
+  top: var(--topology-panel-offset-top);
+}
+
+.topology-toolbar-right {
+  right: var(--topology-toolbar-offset);
+  top: var(--topology-panel-offset-top);
+}
+
+.topology-toolbar-bottom-left {
+  left: var(--topology-toolbar-offset);
+  bottom: var(--topology-toolbar-offset);
+}
+
+.topology-toolbar-bottom-right {
+  right: var(--topology-toolbar-offset);
+  bottom: var(--topology-toolbar-offset);
+}
+
+.topology-toolbar-button {
+  @apply flex items-center justify-center bg-white border border-gray-200 rounded-lg shadow-sm;
+  @apply hover:shadow-md hover:border-gray-300 transition-all duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
+  width: var(--topology-button-size);
+  height: var(--topology-button-size);
+  min-width: var(--topology-button-size);
+}
+
+.topology-toolbar-button:hover {
+  transform: translateY(-1px);
+}
+
+.topology-toolbar-button:active {
+  transform: translateY(0);
+}
+
+.topology-toolbar-button.active {
+  @apply bg-blue-50 border-blue-300 text-blue-600;
+}
+
+.topology-toolbar-group {
+  @apply flex flex-col bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden;
+  gap: 0px;
+}
+
+.topology-toolbar-group .topology-toolbar-button {
+  @apply rounded-none border-0 shadow-none;
+}
+
+.topology-toolbar-group .topology-toolbar-button:first-child {
+  @apply rounded-t-lg;
+}
+
+.topology-toolbar-group .topology-toolbar-button:last-child {
+  @apply rounded-b-lg;
+}
+
+.topology-toolbar-divider {
+  @apply w-full h-px bg-gray-200;
+}
+
+/* Topology Panel Styles */
+.topology-panel {
+  position: absolute;
+  z-index: 30;
+  width: var(--topology-panel-width);
+  max-height: calc(100vh - 180px);
+}
+
+.topology-panel-left {
+  left: calc(var(--topology-toolbar-offset) + var(--topology-button-size) + var(--topology-spacing-md));
+  top: var(--topology-panel-offset-top);
+}
+
+/* Hide default React Flow controls - we use custom toolbar */
+.react-flow__controls {
+  display: none;
+}
+
+/* Ensure select dropdowns show full text */
+select {
+  text-overflow: clip !important;
+  overflow: visible !important;
+}
+
+/* Improved React Flow Attribution positioning */
+.react-flow__attribution {
+  @apply opacity-50 hover:opacity-100 transition-opacity;
+}
+
+/* Properties Panel Base Styles - Consistent sizing for device/boundary/edge panels */
+.properties-panel {
+  width: var(--properties-panel-width);
+  min-width: var(--properties-panel-min-width);
+  max-width: var(--properties-panel-max-width);
+  height: var(--properties-panel-height);
+  min-height: var(--properties-panel-min-height);
+  max-height: var(--properties-panel-max-height);
+  border-radius: var(--properties-panel-border-radius);
+  z-index: var(--properties-panel-z-index);
+  resize: both;
+  overflow: hidden;
+  @apply shadow-xl border-2 border-blue-400 bg-white;
+}
+
+.properties-panel-content {
+  height: calc(100% - var(--properties-panel-header-height));
+  overflow-y: auto;
+  padding: var(--properties-panel-padding);
+  @apply space-y-4;
+}
+
+.properties-panel-header {
+  height: var(--properties-panel-header-height);
+  padding: var(--properties-panel-padding);
+  @apply border-b bg-white;
+}
+
+/* Panel viewport boundary detection - ensure panel stays in view */
+.properties-panel-wrapper {
+  position: fixed;
+  pointer-events: all;
+  z-index: var(--properties-panel-z-index);
+}
+
+.properties-panel-wrapper.reposition-left {
+  transform: translateX(calc(-100% - var(--properties-panel-offset) * 2));
+}
+
+.properties-panel-wrapper.reposition-top {
+  transform: translateY(calc(-100% - var(--properties-panel-offset) * 2));
+}
+
+/* Topology Empty State Styles */
+.topology-empty-state {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.empty-state-container {
+  animation: slideUpFadeIn 0.5s ease-out forwards;
+}
+
+.empty-state-title {
+  animation: slideUpFadeIn 0.4s ease-out 0.1s both;
+}
+
+.empty-state-actions {
+  animation: slideUpFadeIn 0.4s ease-out 0.2s both;
+}
+
+.empty-state-hint {
+  animation: slideUpFadeIn 0.4s ease-out 0.4s both;
+}
+
+.quick-action-card {
+  animation: slideUpFadeIn 0.4s ease-out both;
+}
+
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Floating animation for the sparkles icon */
+.empty-state-title .inline-flex {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Pulse animation for the primary action */
+.quick-action-card[class*="bg-blue-50"] {
+  animation: slideUpFadeIn 0.4s ease-out both, pulse-border 2s ease-in-out infinite 1s;
+}
+
+@keyframes pulse-border {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  }
+}
+

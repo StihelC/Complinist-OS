@@ -1,0 +1,7 @@
+dist
+node_modules
+*.min.js
+electron
+build
+release
+examples

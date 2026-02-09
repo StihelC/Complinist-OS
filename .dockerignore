@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+
+# Build outputs
+release
+dist
+
+# Development files
+.data
+.git
+.github
+.vscode
+.cursor
+*.log
+
+# Electron-specific
+electron-builder.yml
+
+# Test files
+tests
+coverage
+playwright-report
+
+# Documentation
+docs
+*.md
+!README.md
+
+# Models (mounted as volume)
+models
+*.gguf
+
+# Misc
+.env*
+.DS_Store
+Thumbs.db

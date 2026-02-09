@@ -1,0 +1,38 @@
+{
+  "passed": [
+    "License file exists and is readable",
+    "License file is valid JSON",
+    "License has all required fields",
+    "License has active subscription",
+    "License is not expired",
+    "License validation logic works correctly",
+    "IPC handler simulation works correctly",
+    "Full import flow simulation works correctly"
+  ],
+  "failed": [],
+  "logs": [
+    "[2025-12-09T16:14:31.453Z] ============================================================",
+    "[2025-12-09T16:14:31.455Z] License Import E2E Test Suite",
+    "[2025-12-09T16:14:31.455Z] ============================================================",
+    "[2025-12-09T16:14:31.455Z] License file: /home/cam/1.license",
+    "[2025-12-09T16:14:31.455Z] ",
+    "[2025-12-09T16:14:31.455Z] ✓ PASS: License file exists and is readable",
+    "[2025-12-09T16:14:31.455Z] ✓ PASS: License file is valid JSON",
+    "[2025-12-09T16:14:31.455Z] ✓ PASS: License has all required fields",
+    "[2025-12-09T16:14:31.455Z] ✓ PASS: License has active subscription",
+    "[2025-12-09T16:14:31.456Z]   License expires in 25 days",
+    "[2025-12-09T16:14:31.456Z] ✓ PASS: License is not expired",
+    "[2025-12-09T16:14:31.456Z] ✓ PASS: License validation logic works correctly",
+    "[2025-12-09T16:14:31.456Z] ✓ PASS: IPC handler simulation works correctly",
+    "[2025-12-09T16:14:31.456Z] ✓ PASS: Full import flow simulation works correctly",
+    "[2025-12-09T16:14:31.456Z] ",
+    "[2025-12-09T16:14:31.456Z] ============================================================",
+    "[2025-12-09T16:14:31.456Z] Test Summary",
+    "[2025-12-09T16:14:31.456Z] ============================================================",
+    "[2025-12-09T16:14:31.456Z] Total tests: 8",
+    "[2025-12-09T16:14:31.456Z] Passed: 8",
+    "[2025-12-09T16:14:31.456Z] Failed: 0",
+    "[2025-12-09T16:14:31.456Z] ",
+    "[2025-12-09T16:14:31.456Z] ============================================================"
+  ]
+}

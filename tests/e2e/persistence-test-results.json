@@ -1,0 +1,29 @@
+{
+  "passed": [
+    "License can be saved to database",
+    "License can be retrieved from database",
+    "License persists after restart",
+    "License validation after retrieve works"
+  ],
+  "failed": [],
+  "logs": [
+    "[2025-12-09T16:14:31.646Z] ============================================================",
+    "[2025-12-09T16:14:31.647Z] License Persistence Tests",
+    "[2025-12-09T16:14:31.647Z] ============================================================",
+    "[2025-12-09T16:14:31.647Z] ",
+    "[2025-12-09T16:14:31.658Z] ✓ PASS: License can be saved to database",
+    "[2025-12-09T16:14:31.658Z] ✓ PASS: License can be retrieved from database",
+    "[2025-12-09T16:14:31.658Z] ✓ PASS: License persists after restart",
+    "[2025-12-09T16:14:31.659Z] ✓ PASS: License validation after retrieve works",
+    "[2025-12-09T16:14:31.659Z] Test database kept at: /home/cam/Desktop/CompliFlow/test-license.db",
+    "[2025-12-09T16:14:31.659Z] ",
+    "[2025-12-09T16:14:31.659Z] ============================================================",
+    "[2025-12-09T16:14:31.659Z] Test Summary",
+    "[2025-12-09T16:14:31.659Z] ============================================================",
+    "[2025-12-09T16:14:31.659Z] Total tests: 4",
+    "[2025-12-09T16:14:31.659Z] Passed: 4",
+    "[2025-12-09T16:14:31.659Z] Failed: 0",
+    "[2025-12-09T16:14:31.659Z] ",
+    "[2025-12-09T16:14:31.659Z] ============================================================"
+  ]
+}

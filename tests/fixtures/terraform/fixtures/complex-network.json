@@ -1,0 +1,120 @@
+{
+  "format_version": "1.0",
+  "terraform_version": "1.5.0",
+  "resource_changes": [
+    {
+      "address": "aws_vpc.main",
+      "type": "aws_vpc",
+      "name": "main",
+      "provider_name": "aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "cidr_block": "10.0.0.0/16",
+          "tags": { "Name": "main-vpc" }
+        }
+      }
+    },
+    {
+      "address": "aws_subnet.public_1",
+      "type": "aws_subnet",
+      "name": "public_1",
+      "provider_name": "aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "vpc_id": "aws_vpc.main.id",
+          "cidr_block": "10.0.1.0/24",
+          "tags": { "Name": "public-subnet-1" }
+        }
+      }
+    },
+    {
+      "address": "aws_subnet.public_2",
+      "type": "aws_subnet",
+      "name": "public_2",
+      "provider_name": "aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "vpc_id": "aws_vpc.main.id",
+          "cidr_block": "10.0.2.0/24",
+          "tags": { "Name": "public-subnet-2" }
+        }
+      }
+    },
+    {
+      "address": "aws_security_group.web",
+      "type": "aws_security_group",
+      "name": "web",
+      "provider_name": "aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "vpc_id": "aws_vpc.main.id",
+          "id": "sg-web-123",
+          "tags": { "Name": "web-sg" }
+        }
+      }
+    },
+    {
+      "address": "aws_security_group.db",
+      "type": "aws_security_group",
+      "name": "db",
+      "provider_name": "aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "vpc_id": "aws_vpc.main.id",
+          "id": "sg-db-456",
+          "tags": { "Name": "db-sg" }
+        }
+      }
+    },
+    {
+      "address": "aws_instance.web_1",
+      "type": "aws_instance",
+      "name": "web_1",
+      "provider_name": "aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "instance_type": "t2.micro",
+          "subnet_id": "aws_subnet.public_1.id",
+          "vpc_security_group_ids": ["sg-web-123"],
+          "tags": { "Name": "web-server-1" }
+        }
+      }
+    },
+    {
+      "address": "aws_instance.web_2",
+      "type": "aws_instance",
+      "name": "web_2",
+      "provider_name": "aws",
+      "mode": "managed",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "instance_type": "t2.micro",
+          "subnet_id": "aws_subnet.public_2.id",
+          "vpc_security_group_ids": ["sg-web-123"],
+          "tags": { "Name": "web-server-2" }
+        }
+      }
+    }
+  ]
+}
+

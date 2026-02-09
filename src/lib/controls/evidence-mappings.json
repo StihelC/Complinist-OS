@@ -1,0 +1,1587 @@
+{
+  "version": "1.0.0",
+  "description": "NIST 800-53 Rev 5 Control-to-Evidence Mappings - Maps each control to its specific, appropriate evidence types",
+  "metadata": {
+    "lastUpdated": "2025-01-11",
+    "author": "CompliNist Evidence Mapping System",
+    "notes": "Evidence items are control-specific. Policy controls (-1 suffix) require policy/procedure documents. Technical controls require technical artifacts."
+  },
+  "controlCategories": {
+    "policy": {
+      "description": "Policy and Procedures controls (typically ending in -1)",
+      "evidenceTypes": ["policy_document", "procedure_document", "approval_records", "review_records", "training_records", "distribution_records"],
+      "controls": ["AC-1", "AT-1", "AU-1", "CA-1", "CM-1", "CP-1", "IA-1", "IR-1", "MA-1", "MP-1", "PE-1", "PL-1", "PM-1", "PS-1", "PT-1", "RA-1", "SA-1", "SC-1", "SI-1", "SR-1"]
+    },
+    "technical": {
+      "description": "Technical implementation controls requiring system configurations and logs",
+      "evidenceTypes": ["configuration_files", "system_logs", "screenshots", "audit_reports", "scan_results", "architecture_diagrams"],
+      "controls": []
+    },
+    "operational": {
+      "description": "Operational controls requiring procedures and records",
+      "evidenceTypes": ["procedure_records", "training_records", "incident_reports", "test_results", "maintenance_logs"],
+      "controls": []
+    },
+    "management": {
+      "description": "Management controls requiring plans and assessments",
+      "evidenceTypes": ["plans", "assessments", "risk_analysis", "authorization_documents", "monitoring_reports"],
+      "controls": []
+    }
+  },
+  "evidenceMappings": {
+    "AC-1": {
+      "controlName": "Access Control Policy and Procedures",
+      "category": "policy",
+      "intent": "Establish and maintain access control policy and procedures",
+      "suggestedEvidence": [
+        {
+          "item": "Access Control Policy Document",
+          "description": "Formal policy document defining access control requirements, roles, and responsibilities",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Access Control Procedures",
+          "description": "Step-by-step procedures for implementing access control requirements",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Review Records",
+          "description": "Documentation of periodic policy reviews and updates",
+          "required": true,
+          "priority": 3
+        },
+        {
+          "item": "Policy Approval Memo",
+          "description": "Signed approval from designated official authorizing the policy",
+          "required": true,
+          "priority": 4
+        },
+        {
+          "item": "Policy Distribution/Training Records",
+          "description": "Evidence that policy was distributed to relevant personnel",
+          "required": false,
+          "priority": 5
+        }
+      ],
+      "incorrectEvidence": ["ACL configurations", "RBAC role definitions", "System logs", "Permission matrices"],
+      "relatedControls": ["AC-2", "AC-3", "AC-5", "AC-6"]
+    },
+    "AC-2": {
+      "controlName": "Account Management",
+      "category": "technical",
+      "intent": "Manage system accounts including creation, enabling, modification, disabling, and removal",
+      "suggestedEvidence": [
+        {
+          "item": "Account Management Procedures",
+          "description": "Documented procedures for account lifecycle management",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "User Account List/Inventory",
+          "description": "Current listing of all system accounts with roles and permissions",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Account Approval Records",
+          "description": "Documentation of account creation approvals",
+          "required": true,
+          "priority": 3
+        },
+        {
+          "item": "Account Review Logs",
+          "description": "Records of periodic account reviews and recertifications",
+          "required": true,
+          "priority": 4
+        },
+        {
+          "item": "Termination/Disablement Records",
+          "description": "Documentation of account disabling upon personnel changes",
+          "required": false,
+          "priority": 5
+        }
+      ],
+      "incorrectEvidence": ["Access Control Policy document", "Security architecture diagrams"],
+      "relatedControls": ["AC-1", "AC-3", "AC-5", "PS-4"]
+    },
+    "AC-3": {
+      "controlName": "Access Enforcement",
+      "category": "technical",
+      "intent": "Enforce approved authorizations for logical access to information and system resources",
+      "suggestedEvidence": [
+        {
+          "item": "ACL Configurations",
+          "description": "Access Control List configurations from systems, firewalls, and applications",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "RBAC Role Definitions",
+          "description": "Role-based access control role definitions and assignments",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Permission Matrices",
+          "description": "Matrices showing user/role to resource access mappings",
+          "required": true,
+          "priority": 3
+        },
+        {
+          "item": "Authorization Logs",
+          "description": "System logs showing access enforcement decisions",
+          "required": false,
+          "priority": 4
+        },
+        {
+          "item": "Access Enforcement Test Results",
+          "description": "Results of testing access enforcement mechanisms",
+          "required": false,
+          "priority": 5
+        }
+      ],
+      "incorrectEvidence": ["Access Control Policy document", "Training records"],
+      "relatedControls": ["AC-1", "AC-2", "AC-5", "AC-6"]
+    },
+    "AC-4": {
+      "controlName": "Information Flow Enforcement",
+      "category": "technical",
+      "intent": "Enforce approved authorizations for controlling information flow within and between systems",
+      "suggestedEvidence": [
+        {
+          "item": "Firewall Rule Configurations",
+          "description": "Firewall rules controlling information flow between network segments",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Network Segmentation Diagrams",
+          "description": "Diagrams showing network zones and information flow paths",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Data Flow Documentation",
+          "description": "Documentation of authorized data flows and their controls",
+          "required": true,
+          "priority": 3
+        },
+        {
+          "item": "Flow Control Test Results",
+          "description": "Results from testing information flow enforcement",
+          "required": false,
+          "priority": 4
+        }
+      ],
+      "incorrectEvidence": ["Access Control Policy", "User account listings"],
+      "relatedControls": ["AC-3", "SC-7", "SC-8"]
+    },
+    "AC-5": {
+      "controlName": "Separation of Duties",
+      "category": "operational",
+      "intent": "Separate duties of individuals to prevent malicious activity",
+      "suggestedEvidence": [
+        {
+          "item": "Separation of Duties Matrix",
+          "description": "Matrix identifying incompatible duties and current assignments",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Role Definition Documents",
+          "description": "Formal definitions of roles with segregated responsibilities",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Access Rights Analysis",
+          "description": "Analysis showing no single individual has conflicting access",
+          "required": true,
+          "priority": 3
+        },
+        {
+          "item": "SoD Violation Reports",
+          "description": "Reports identifying and remediating any SoD violations",
+          "required": false,
+          "priority": 4
+        }
+      ],
+      "incorrectEvidence": ["Access Control Policy", "ACL configurations"],
+      "relatedControls": ["AC-2", "AC-3", "AC-6"]
+    },
+    "AC-6": {
+      "controlName": "Least Privilege",
+      "category": "technical",
+      "intent": "Employ the principle of least privilege, allowing only authorized accesses necessary for users",
+      "suggestedEvidence": [
+        {
+          "item": "Privilege Analysis Report",
+          "description": "Analysis of user privileges showing alignment with job functions",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Privileged Account Inventory",
+          "description": "List of privileged accounts with justifications",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Access Rights by Role",
+          "description": "Documentation of access rights assigned to each role",
+          "required": true,
+          "priority": 3
+        },
+        {
+          "item": "Privilege Review Records",
+          "description": "Records of periodic privilege reviews",
+          "required": false,
+          "priority": 4
+        }
+      ],
+      "incorrectEvidence": ["Access Control Policy", "Training records"],
+      "relatedControls": ["AC-2", "AC-3", "AC-5"]
+    },
+    "AC-7": {
+      "controlName": "Unsuccessful Logon Attempts",
+      "category": "technical",
+      "intent": "Enforce a limit of consecutive invalid logon attempts",
+      "suggestedEvidence": [
+        {
+          "item": "Account Lockout Configuration",
+          "description": "System configuration showing lockout thresholds and durations",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Failed Logon Logs",
+          "description": "Sample audit logs showing failed logon tracking",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Lockout Test Results",
+          "description": "Test results demonstrating lockout mechanism works",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Access Control Policy", "User training records"],
+      "relatedControls": ["AC-2", "IA-2", "IA-5"]
+    },
+    "AC-8": {
+      "controlName": "System Use Notification",
+      "category": "technical",
+      "intent": "Display an approved system use notification message before granting access",
+      "suggestedEvidence": [
+        {
+          "item": "Login Banner Screenshots",
+          "description": "Screenshots of system use notification banners displayed at login",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Banner Text Content",
+          "description": "Approved banner text content reviewed by legal/management",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Banner Configuration",
+          "description": "System configuration showing banner implementation",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Access Control Policy", "ACL configurations"],
+      "relatedControls": ["AC-2", "PL-4"]
+    },
+    "AC-17": {
+      "controlName": "Remote Access",
+      "category": "technical",
+      "intent": "Control and monitor methods for remote access to the system",
+      "suggestedEvidence": [
+        {
+          "item": "Remote Access Policy/Procedures",
+          "description": "Documented requirements for remote access",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "VPN Configuration",
+          "description": "VPN gateway configuration showing security controls",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Remote Access Logs",
+          "description": "Logs showing remote access monitoring",
+          "required": true,
+          "priority": 3
+        },
+        {
+          "item": "Authorized Remote Users List",
+          "description": "List of users authorized for remote access",
+          "required": false,
+          "priority": 4
+        }
+      ],
+      "incorrectEvidence": ["Access Control Policy (general)", "Physical access logs"],
+      "relatedControls": ["AC-3", "IA-2", "SC-8", "SC-13"]
+    },
+    "AC-18": {
+      "controlName": "Wireless Access",
+      "category": "technical",
+      "intent": "Protect wireless access to the system using authentication and encryption",
+      "suggestedEvidence": [
+        {
+          "item": "Wireless Configuration",
+          "description": "Wireless access point security configuration",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Wireless Security Standards",
+          "description": "Documentation of required wireless security standards (WPA3, etc.)",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Authorized Wireless Devices",
+          "description": "Inventory of authorized wireless devices",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Access Control Policy", "Wired network diagrams"],
+      "relatedControls": ["AC-17", "IA-2", "SC-8"]
+    },
+    "AC-19": {
+      "controlName": "Access Control for Mobile Devices",
+      "category": "technical",
+      "intent": "Establish usage restrictions and implementation guidance for mobile devices",
+      "suggestedEvidence": [
+        {
+          "item": "Mobile Device Policy",
+          "description": "Policy for mobile device usage and security requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "MDM Configuration",
+          "description": "Mobile Device Management configuration and enrolled devices",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Mobile Device Inventory",
+          "description": "Inventory of authorized mobile devices",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Access Control Policy (general)", "Desktop configurations"],
+      "relatedControls": ["AC-17", "AC-18", "MP-7"]
+    },
+    "AU-1": {
+      "controlName": "Audit and Accountability Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop, document, and disseminate audit and accountability policy and procedures",
+      "suggestedEvidence": [
+        {
+          "item": "Audit and Accountability Policy",
+          "description": "Formal policy document defining audit requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Audit Procedures",
+          "description": "Procedures for audit log management and review",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Review Records",
+          "description": "Documentation of policy reviews and updates",
+          "required": true,
+          "priority": 3
+        },
+        {
+          "item": "Policy Approval Documentation",
+          "description": "Approval signature from appropriate authority",
+          "required": true,
+          "priority": 4
+        }
+      ],
+      "incorrectEvidence": ["Audit logs", "SIEM configurations", "Log aggregator settings"],
+      "relatedControls": ["AU-2", "AU-3", "AU-6"]
+    },
+    "AU-2": {
+      "controlName": "Event Logging",
+      "category": "technical",
+      "intent": "Identify events that need to be logged and coordinate logging across the organization",
+      "suggestedEvidence": [
+        {
+          "item": "Auditable Events List",
+          "description": "Documented list of events the system is configured to log",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Logging Configuration",
+          "description": "System configuration showing event logging settings",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Sample Audit Logs",
+          "description": "Sample logs demonstrating events are being captured",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Audit Policy document", "Training records"],
+      "relatedControls": ["AU-1", "AU-3", "AU-12"]
+    },
+    "AU-3": {
+      "controlName": "Content of Audit Records",
+      "category": "technical",
+      "intent": "Ensure audit records contain sufficient information for forensic analysis",
+      "suggestedEvidence": [
+        {
+          "item": "Audit Record Format Specification",
+          "description": "Documentation of required audit record fields",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Sample Audit Records",
+          "description": "Sample logs showing required content (who, what, when, where, outcome)",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Log Format Configuration",
+          "description": "Configuration showing audit record content settings",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Audit Policy", "Log retention settings"],
+      "relatedControls": ["AU-2", "AU-12"]
+    },
+    "AU-6": {
+      "controlName": "Audit Record Review, Analysis, and Reporting",
+      "category": "operational",
+      "intent": "Review and analyze system audit records for indications of inappropriate or unusual activity",
+      "suggestedEvidence": [
+        {
+          "item": "Audit Review Procedures",
+          "description": "Documented procedures for log review and analysis",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Audit Review Schedule",
+          "description": "Schedule showing frequency of audit reviews",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Audit Review Reports",
+          "description": "Sample reports from audit log reviews",
+          "required": true,
+          "priority": 3
+        },
+        {
+          "item": "SIEM Dashboard/Alerts",
+          "description": "Screenshots of SIEM alerts and monitoring dashboards",
+          "required": false,
+          "priority": 4
+        }
+      ],
+      "incorrectEvidence": ["Audit Policy", "Raw audit logs without analysis"],
+      "relatedControls": ["AU-2", "AU-3", "SI-4"]
+    },
+    "AU-12": {
+      "controlName": "Audit Record Generation",
+      "category": "technical",
+      "intent": "Provide audit record generation capability for auditable events",
+      "suggestedEvidence": [
+        {
+          "item": "Audit Generation Configuration",
+          "description": "System configuration showing audit generation settings",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Audit Component Inventory",
+          "description": "List of systems/components generating audit records",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Generated Audit Samples",
+          "description": "Sample audit records from each configured source",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Audit Policy", "Audit review reports"],
+      "relatedControls": ["AU-2", "AU-3"]
+    },
+    "CA-1": {
+      "controlName": "Assessment, Authorization, and Monitoring Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document security assessment and authorization policies",
+      "suggestedEvidence": [
+        {
+          "item": "Security Assessment Policy",
+          "description": "Policy defining assessment and authorization requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Assessment Procedures",
+          "description": "Procedures for conducting security assessments",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Assessment reports", "Vulnerability scans", "POA&M"],
+      "relatedControls": ["CA-2", "CA-5", "CA-7"]
+    },
+    "CA-7": {
+      "controlName": "Continuous Monitoring",
+      "category": "technical",
+      "intent": "Develop and implement a continuous monitoring strategy",
+      "suggestedEvidence": [
+        {
+          "item": "Continuous Monitoring Strategy",
+          "description": "Documented strategy for ongoing security monitoring",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Monitoring Tool Configuration",
+          "description": "Configuration of continuous monitoring tools",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Monitoring Reports",
+          "description": "Sample monitoring reports and dashboards",
+          "required": true,
+          "priority": 3
+        },
+        {
+          "item": "Alert Configurations",
+          "description": "Configuration of monitoring alerts and thresholds",
+          "required": false,
+          "priority": 4
+        }
+      ],
+      "incorrectEvidence": ["CA Policy", "One-time assessment reports"],
+      "relatedControls": ["CA-2", "SI-4", "RA-5"]
+    },
+    "CM-1": {
+      "controlName": "Configuration Management Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop, document, and disseminate configuration management policy and procedures",
+      "suggestedEvidence": [
+        {
+          "item": "Configuration Management Policy",
+          "description": "Formal CM policy document",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Configuration Management Procedures",
+          "description": "Procedures for configuration control and change management",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval and reviews",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Baseline configurations", "Change tickets", "System hardening guides"],
+      "relatedControls": ["CM-2", "CM-3", "CM-6"]
+    },
+    "CM-2": {
+      "controlName": "Baseline Configuration",
+      "category": "technical",
+      "intent": "Develop and maintain baseline configurations for information systems",
+      "suggestedEvidence": [
+        {
+          "item": "Baseline Configuration Documentation",
+          "description": "Documented baseline configurations for system types",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Configuration Settings",
+          "description": "Actual configuration settings from systems",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Baseline Deviation Reports",
+          "description": "Reports showing any deviations from baseline",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["CM Policy", "Change management tickets"],
+      "relatedControls": ["CM-1", "CM-6", "CM-8"]
+    },
+    "CM-6": {
+      "controlName": "Configuration Settings",
+      "category": "technical",
+      "intent": "Establish and document configuration settings for system components",
+      "suggestedEvidence": [
+        {
+          "item": "Configuration Standards",
+          "description": "Standards defining required configuration settings",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "System Configuration Exports",
+          "description": "Exported configurations from systems showing compliance",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Configuration Compliance Scans",
+          "description": "Scan results showing configuration compliance",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["CM Policy", "Hardware inventory"],
+      "relatedControls": ["CM-2", "CM-7"]
+    },
+    "CM-7": {
+      "controlName": "Least Functionality",
+      "category": "technical",
+      "intent": "Configure systems to provide only essential capabilities",
+      "suggestedEvidence": [
+        {
+          "item": "Essential Functions Documentation",
+          "description": "Documentation of essential system functions",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Disabled Services List",
+          "description": "List of disabled/removed unnecessary services",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Port/Protocol Restrictions",
+          "description": "Documentation of restricted ports and protocols",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["CM Policy", "Change tickets"],
+      "relatedControls": ["CM-2", "CM-6", "SC-7"]
+    },
+    "CM-8": {
+      "controlName": "System Component Inventory",
+      "category": "operational",
+      "intent": "Develop and maintain an inventory of system components",
+      "suggestedEvidence": [
+        {
+          "item": "Hardware Inventory",
+          "description": "Complete inventory of hardware components",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Software Inventory",
+          "description": "Complete inventory of installed software",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Inventory Tool Reports",
+          "description": "Reports from automated inventory tools",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["CM Policy", "Configuration standards"],
+      "relatedControls": ["CM-2", "PM-5"]
+    },
+    "CP-1": {
+      "controlName": "Contingency Planning Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop, document, and disseminate contingency planning policy and procedures",
+      "suggestedEvidence": [
+        {
+          "item": "Contingency Planning Policy",
+          "description": "Formal policy for contingency planning",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Contingency Procedures",
+          "description": "Procedures for contingency operations",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Contingency plan", "Backup logs", "Test results"],
+      "relatedControls": ["CP-2", "CP-4", "CP-9"]
+    },
+    "CP-9": {
+      "controlName": "System Backup",
+      "category": "technical",
+      "intent": "Conduct backups of system-level and user-level information",
+      "suggestedEvidence": [
+        {
+          "item": "Backup Configuration",
+          "description": "Configuration of backup systems and schedules",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Backup Logs",
+          "description": "Logs showing successful backup completion",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Backup Test Results",
+          "description": "Results from backup restoration testing",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["CP Policy", "Contingency plan document"],
+      "relatedControls": ["CP-1", "CP-2", "CP-10"]
+    },
+    "IA-1": {
+      "controlName": "Identification and Authentication Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document identification and authentication policies",
+      "suggestedEvidence": [
+        {
+          "item": "I&A Policy Document",
+          "description": "Policy defining identification and authentication requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Authentication Procedures",
+          "description": "Procedures for user authentication",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["MFA configuration", "Authentication logs", "Password settings"],
+      "relatedControls": ["IA-2", "IA-4", "IA-5"]
+    },
+    "IA-2": {
+      "controlName": "Identification and Authentication (Organizational Users)",
+      "category": "technical",
+      "intent": "Uniquely identify and authenticate organizational users",
+      "suggestedEvidence": [
+        {
+          "item": "Authentication Mechanism Configuration",
+          "description": "Configuration of authentication systems (AD, LDAP, etc.)",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "MFA Configuration",
+          "description": "Multi-factor authentication configuration",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Authentication Logs",
+          "description": "Sample logs showing authentication events",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["IA Policy", "User training records"],
+      "relatedControls": ["IA-1", "IA-5", "AC-7"]
+    },
+    "IA-5": {
+      "controlName": "Authenticator Management",
+      "category": "technical",
+      "intent": "Manage authenticators for user accounts",
+      "suggestedEvidence": [
+        {
+          "item": "Password Policy Configuration",
+          "description": "System configuration showing password requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Authenticator Standards",
+          "description": "Standards for authenticator strength and management",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Credential Storage Configuration",
+          "description": "Configuration showing secure credential storage",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["IA Policy", "User account listings"],
+      "relatedControls": ["IA-1", "IA-2", "IA-4"]
+    },
+    "IR-1": {
+      "controlName": "Incident Response Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document incident response policies and procedures",
+      "suggestedEvidence": [
+        {
+          "item": "Incident Response Policy",
+          "description": "Policy defining incident response requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Incident Response Procedures",
+          "description": "Procedures for detecting, responding to, and reporting incidents",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Incident reports", "SIEM alerts", "Forensic analysis"],
+      "relatedControls": ["IR-2", "IR-4", "IR-8"]
+    },
+    "IR-4": {
+      "controlName": "Incident Handling",
+      "category": "operational",
+      "intent": "Implement an incident handling capability for security incidents",
+      "suggestedEvidence": [
+        {
+          "item": "Incident Handling Procedures",
+          "description": "Detailed procedures for incident handling",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Incident Response Playbooks",
+          "description": "Playbooks for common incident types",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Sample Incident Reports",
+          "description": "Anonymized sample incident reports showing process",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["IR Policy", "Training attendance"],
+      "relatedControls": ["IR-1", "IR-5", "IR-6"]
+    },
+    "MA-1": {
+      "controlName": "System Maintenance Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document system maintenance policies and procedures",
+      "suggestedEvidence": [
+        {
+          "item": "Maintenance Policy",
+          "description": "Policy defining maintenance requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Maintenance Procedures",
+          "description": "Procedures for conducting system maintenance",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Maintenance logs", "Patch reports", "Work orders"],
+      "relatedControls": ["MA-2", "MA-4", "MA-5"]
+    },
+    "MP-1": {
+      "controlName": "Media Protection Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document media protection policies and procedures",
+      "suggestedEvidence": [
+        {
+          "item": "Media Protection Policy",
+          "description": "Policy defining media protection requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Media Handling Procedures",
+          "description": "Procedures for media handling and sanitization",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Media sanitization logs", "Encryption configurations"],
+      "relatedControls": ["MP-2", "MP-6", "MP-7"]
+    },
+    "PE-1": {
+      "controlName": "Physical and Environmental Protection Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document physical security policies and procedures",
+      "suggestedEvidence": [
+        {
+          "item": "Physical Security Policy",
+          "description": "Policy defining physical protection requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Physical Security Procedures",
+          "description": "Procedures for physical access control",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Access card logs", "Visitor logs", "Camera footage"],
+      "relatedControls": ["PE-2", "PE-3", "PE-6"]
+    },
+    "PL-1": {
+      "controlName": "Planning Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document security planning policies",
+      "suggestedEvidence": [
+        {
+          "item": "Security Planning Policy",
+          "description": "Policy defining security planning requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Planning Procedures",
+          "description": "Procedures for security plan development and maintenance",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["System Security Plan", "Security architecture"],
+      "relatedControls": ["PL-2", "PL-4", "PL-8"]
+    },
+    "PS-1": {
+      "controlName": "Personnel Security Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document personnel security policies",
+      "suggestedEvidence": [
+        {
+          "item": "Personnel Security Policy",
+          "description": "Policy defining personnel security requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Personnel Procedures",
+          "description": "Procedures for screening, termination, and transfers",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Background check results", "Termination checklists"],
+      "relatedControls": ["PS-2", "PS-3", "PS-4"]
+    },
+    "RA-1": {
+      "controlName": "Risk Assessment Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document risk assessment policies",
+      "suggestedEvidence": [
+        {
+          "item": "Risk Assessment Policy",
+          "description": "Policy defining risk assessment requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Risk Assessment Procedures",
+          "description": "Procedures for conducting risk assessments",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Risk assessment reports", "Vulnerability scans"],
+      "relatedControls": ["RA-2", "RA-3", "RA-5"]
+    },
+    "RA-5": {
+      "controlName": "Vulnerability Monitoring and Scanning",
+      "category": "technical",
+      "intent": "Monitor and scan for vulnerabilities in the system",
+      "suggestedEvidence": [
+        {
+          "item": "Vulnerability Scanning Configuration",
+          "description": "Configuration of vulnerability scanning tools",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Vulnerability Scan Reports",
+          "description": "Recent vulnerability scan results",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Remediation Tracking",
+          "description": "Documentation of vulnerability remediation",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["RA Policy", "Risk assessment documents"],
+      "relatedControls": ["RA-1", "SI-2", "CA-7"]
+    },
+    "SA-1": {
+      "controlName": "System and Services Acquisition Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document acquisition policies",
+      "suggestedEvidence": [
+        {
+          "item": "Acquisition Policy",
+          "description": "Policy defining acquisition security requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Acquisition Procedures",
+          "description": "Procedures for secure acquisition",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Vendor contracts", "Security requirements in RFPs"],
+      "relatedControls": ["SA-2", "SA-4", "SA-9"]
+    },
+    "SC-1": {
+      "controlName": "System and Communications Protection Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document system protection policies",
+      "suggestedEvidence": [
+        {
+          "item": "System Protection Policy",
+          "description": "Policy defining system and communications protection",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Protection Procedures",
+          "description": "Procedures for implementing protection mechanisms",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Firewall configurations", "Encryption settings", "Network diagrams"],
+      "relatedControls": ["SC-7", "SC-8", "SC-13"]
+    },
+    "SC-7": {
+      "controlName": "Boundary Protection",
+      "category": "technical",
+      "intent": "Monitor and control communications at external and internal boundaries",
+      "suggestedEvidence": [
+        {
+          "item": "Network Boundary Diagram",
+          "description": "Diagram showing system boundaries and protection points",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Firewall Configurations",
+          "description": "Firewall rules at boundary points",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Boundary Protection Test Results",
+          "description": "Results from boundary protection testing",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["SC Policy", "User access lists"],
+      "relatedControls": ["SC-1", "AC-4", "SC-8"]
+    },
+    "SC-8": {
+      "controlName": "Transmission Confidentiality and Integrity",
+      "category": "technical",
+      "intent": "Protect the confidentiality and integrity of transmitted information",
+      "suggestedEvidence": [
+        {
+          "item": "Encryption Configuration",
+          "description": "Configuration of encryption for data in transit",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "TLS/SSL Certificate Information",
+          "description": "Certificate configurations for encrypted communications",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Encryption Test Results",
+          "description": "Results from testing transmission encryption",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["SC Policy", "Firewall rules"],
+      "relatedControls": ["SC-1", "SC-13", "SC-7"]
+    },
+    "SC-13": {
+      "controlName": "Cryptographic Protection",
+      "category": "technical",
+      "intent": "Employ cryptographic mechanisms to protect information",
+      "suggestedEvidence": [
+        {
+          "item": "Cryptographic Standards Documentation",
+          "description": "Documentation of approved cryptographic algorithms",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Encryption Configuration",
+          "description": "System configuration showing encryption implementation",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Key Management Procedures",
+          "description": "Procedures for cryptographic key management",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["SC Policy", "Network diagrams"],
+      "relatedControls": ["SC-1", "SC-8", "SC-12"]
+    },
+    "SC-28": {
+      "controlName": "Protection of Information at Rest",
+      "category": "technical",
+      "intent": "Protect the confidentiality and integrity of information at rest",
+      "suggestedEvidence": [
+        {
+          "item": "Data-at-Rest Encryption Configuration",
+          "description": "Configuration showing encryption of stored data",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Storage Encryption Standards",
+          "description": "Standards for encrypting data at rest",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Encryption Coverage Report",
+          "description": "Report showing what data is encrypted",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["SC Policy", "Transmission encryption settings"],
+      "relatedControls": ["SC-1", "SC-13", "MP-4"]
+    },
+    "SI-1": {
+      "controlName": "System and Information Integrity Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document integrity policies and procedures",
+      "suggestedEvidence": [
+        {
+          "item": "Integrity Policy",
+          "description": "Policy defining system and information integrity requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Integrity Procedures",
+          "description": "Procedures for maintaining system integrity",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Patch reports", "Antivirus logs", "IDS alerts"],
+      "relatedControls": ["SI-2", "SI-3", "SI-4"]
+    },
+    "SI-2": {
+      "controlName": "Flaw Remediation",
+      "category": "technical",
+      "intent": "Identify, report, and correct system flaws",
+      "suggestedEvidence": [
+        {
+          "item": "Patch Management Procedures",
+          "description": "Procedures for identifying and applying patches",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Patch Status Report",
+          "description": "Current patch status across systems",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Patch Testing Records",
+          "description": "Records of patch testing before deployment",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["SI Policy", "Vulnerability scan reports (RA-5)"],
+      "relatedControls": ["SI-1", "RA-5", "CM-3"]
+    },
+    "SI-3": {
+      "controlName": "Malicious Code Protection",
+      "category": "technical",
+      "intent": "Implement malicious code protection mechanisms",
+      "suggestedEvidence": [
+        {
+          "item": "Antivirus/Anti-malware Configuration",
+          "description": "Configuration of malware protection tools",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Malware Definition Update Status",
+          "description": "Evidence of current malware definitions",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Malware Detection Reports",
+          "description": "Reports of detected and remediated malware",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["SI Policy", "User training on phishing"],
+      "relatedControls": ["SI-1", "SI-4", "SI-8"]
+    },
+    "SI-4": {
+      "controlName": "System Monitoring",
+      "category": "technical",
+      "intent": "Monitor the system to detect attacks and indicators of potential attacks",
+      "suggestedEvidence": [
+        {
+          "item": "Monitoring Tool Configuration",
+          "description": "Configuration of IDS/IPS and monitoring tools",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Monitoring Coverage Map",
+          "description": "Documentation showing what systems are monitored",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Alert Configuration",
+          "description": "Configuration of security alerts and thresholds",
+          "required": true,
+          "priority": 3
+        },
+        {
+          "item": "Sample Monitoring Reports",
+          "description": "Sample monitoring reports and dashboards",
+          "required": false,
+          "priority": 4
+        }
+      ],
+      "incorrectEvidence": ["SI Policy", "Audit review procedures (AU-6)"],
+      "relatedControls": ["SI-1", "AU-6", "CA-7"]
+    },
+    "SR-1": {
+      "controlName": "Supply Chain Risk Management Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document supply chain risk management policies",
+      "suggestedEvidence": [
+        {
+          "item": "SCRM Policy",
+          "description": "Policy defining supply chain risk management requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "SCRM Procedures",
+          "description": "Procedures for managing supply chain risks",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Vendor risk assessments", "Third-party audit reports"],
+      "relatedControls": ["SR-2", "SR-3", "SA-9"]
+    },
+    "AT-1": {
+      "controlName": "Awareness and Training Policy and Procedures",
+      "category": "policy",
+      "intent": "Develop and document security awareness and training policies",
+      "suggestedEvidence": [
+        {
+          "item": "Training Policy",
+          "description": "Policy defining training requirements",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Training Procedures",
+          "description": "Procedures for delivering and tracking training",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Policy Approval Records",
+          "description": "Documentation of policy approval",
+          "required": true,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Training completion records", "Course materials", "Test scores"],
+      "relatedControls": ["AT-2", "AT-3", "AT-4"]
+    },
+    "AT-2": {
+      "controlName": "Literacy Training and Awareness",
+      "category": "operational",
+      "intent": "Provide security literacy training to users",
+      "suggestedEvidence": [
+        {
+          "item": "Training Completion Records",
+          "description": "Records showing user training completion",
+          "required": true,
+          "priority": 1
+        },
+        {
+          "item": "Training Materials",
+          "description": "Current security awareness training content",
+          "required": true,
+          "priority": 2
+        },
+        {
+          "item": "Training Schedule",
+          "description": "Schedule for required training",
+          "required": false,
+          "priority": 3
+        }
+      ],
+      "incorrectEvidence": ["Training Policy", "Role-based training (AT-3)"],
+      "relatedControls": ["AT-1", "AT-3", "AT-4"]
+    }
+  },
+  "validationRules": {
+    "policyControls": {
+      "description": "Controls ending in -1 are typically policy controls",
+      "pattern": "^[A-Z]{2}-1$",
+      "requiredEvidenceTypes": ["policy_document", "procedure_document", "approval_records"],
+      "prohibitedEvidenceTypes": ["system_logs", "configuration_files", "scan_results"]
+    },
+    "technicalControls": {
+      "description": "Technical controls require system configurations and technical artifacts",
+      "requiredEvidenceTypes": ["configuration_files", "screenshots", "test_results"],
+      "prohibitedEvidenceTypes": []
+    }
+  },
+  "evidenceTypeDefinitions": {
+    "policy_document": {
+      "name": "Policy Document",
+      "description": "Formal policy document approved by management",
+      "examples": ["Access Control Policy", "Information Security Policy"]
+    },
+    "procedure_document": {
+      "name": "Procedure Document",
+      "description": "Step-by-step procedures for implementing policies",
+      "examples": ["Account Management Procedures", "Incident Response Procedures"]
+    },
+    "approval_records": {
+      "name": "Approval Records",
+      "description": "Documentation of management approval",
+      "examples": ["Signed approval memo", "Policy approval email"]
+    },
+    "review_records": {
+      "name": "Review Records",
+      "description": "Documentation of periodic reviews",
+      "examples": ["Annual policy review", "Quarterly access review"]
+    },
+    "training_records": {
+      "name": "Training Records",
+      "description": "Records of training completion",
+      "examples": ["Training transcripts", "Completion certificates"]
+    },
+    "distribution_records": {
+      "name": "Distribution Records",
+      "description": "Evidence of policy distribution",
+      "examples": ["Email distribution", "Acknowledgment signatures"]
+    },
+    "configuration_files": {
+      "name": "Configuration Files",
+      "description": "System or application configuration settings",
+      "examples": ["Firewall rules", "Group Policy settings", "sshd_config"]
+    },
+    "system_logs": {
+      "name": "System Logs",
+      "description": "Audit logs and system event records",
+      "examples": ["Windows Event Logs", "Syslog entries", "Authentication logs"]
+    },
+    "screenshots": {
+      "name": "Screenshots",
+      "description": "Visual evidence of system configurations or settings",
+      "examples": ["Login banner screenshot", "MFA settings screenshot"]
+    },
+    "audit_reports": {
+      "name": "Audit Reports",
+      "description": "Reports from security audits or assessments",
+      "examples": ["Internal audit report", "Third-party assessment"]
+    },
+    "scan_results": {
+      "name": "Scan Results",
+      "description": "Results from automated scanning tools",
+      "examples": ["Vulnerability scan report", "Configuration compliance scan"]
+    },
+    "architecture_diagrams": {
+      "name": "Architecture Diagrams",
+      "description": "Technical diagrams showing system architecture",
+      "examples": ["Network diagram", "Data flow diagram"]
+    },
+    "procedure_records": {
+      "name": "Procedure Records",
+      "description": "Records showing procedures were followed",
+      "examples": ["Change tickets", "Incident reports"]
+    },
+    "incident_reports": {
+      "name": "Incident Reports",
+      "description": "Documentation of security incidents",
+      "examples": ["Incident report form", "After-action report"]
+    },
+    "test_results": {
+      "name": "Test Results",
+      "description": "Results from testing activities",
+      "examples": ["Penetration test results", "DR test results"]
+    },
+    "maintenance_logs": {
+      "name": "Maintenance Logs",
+      "description": "Records of system maintenance activities",
+      "examples": ["Patch logs", "Maintenance work orders"]
+    },
+    "plans": {
+      "name": "Plans",
+      "description": "Formal planning documents",
+      "examples": ["Contingency Plan", "POA&M"]
+    },
+    "assessments": {
+      "name": "Assessments",
+      "description": "Security assessments and evaluations",
+      "examples": ["Risk assessment", "Security assessment report"]
+    },
+    "risk_analysis": {
+      "name": "Risk Analysis",
+      "description": "Risk analysis documentation",
+      "examples": ["Risk register", "Threat assessment"]
+    },
+    "authorization_documents": {
+      "name": "Authorization Documents",
+      "description": "System authorization documentation",
+      "examples": ["ATO letter", "Authorization memo"]
+    },
+    "monitoring_reports": {
+      "name": "Monitoring Reports",
+      "description": "Continuous monitoring reports",
+      "examples": ["Monthly security report", "SIEM summary"]
+    }
+  }
+}
