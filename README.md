@@ -2,8 +2,8 @@
 
 **NIST Compliance and System Security Planning Tool**
 
-[![Pipeline Status](https://gitlab.com/your-group/complinist/badges/main/pipeline.svg)](https://gitlab.com/your-group/complinist/-/pipelines)
-[![Coverage](https://gitlab.com/your-group/complinist/badges/main/coverage.svg)](https://gitlab.com/your-group/complinist/-/graphs/main/charts)
+[![CI](https://github.com/StihelC/Complinist-OS/actions/workflows/release.yml/badge.svg)](https://github.com/StihelC/Complinist-OS/actions)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 CompliNist is an Electron-based desktop application for creating network topology diagrams, managing NIST SP 800-53 control narratives, and generating System Security Plans (SSPs) with AI-assisted compliance guidance.
 
@@ -77,8 +77,8 @@ CompliNist follows a layered architecture:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd CompliNist
+git clone https://github.com/StihelC/Complinist-OS.git
+cd Complinist-OS
 
 # Install dependencies
 npm install
@@ -115,41 +115,16 @@ npm run electron:build:all
 
 ## CI/CD Pipeline
 
-CompliNist uses **GitLab CI/CD** for automated testing, building, and deployment.
+CompliNist uses **GitHub Actions** for automated testing, building, and deployment.
 
 ### Pipeline Overview
 
-The pipeline automatically runs on every commit and includes:
+The pipeline automatically runs on every push and pull request:
 
 - **Code Quality**: TypeScript type checking, ESLint, Prettier
-- **Testing**: Unit tests with Vitest, E2E tests, coverage reporting
-- **Security**: Dependency scanning, license compliance, SAST
+- **Testing**: Unit tests with Vitest, coverage reporting
 - **Building**: Multi-platform builds (Linux, Windows) with electron-builder
-- **Deployment**: Progressive deployment to dev/staging/production
-
-### Pipeline Stages
-
-```
-validate → test → security → build → deploy-dev → deploy-staging → deploy-prod
-```
-
-**Typical Duration**: 15-25 minutes for full pipeline
-
-### Quick Links
-
-- **View Pipelines**: [CI/CD → Pipelines](https://gitlab.com/your-group/complinist/-/pipelines)
-- **Download Builds**: Available in pipeline artifacts (90-day retention)
-- **Pipeline Status**: See badges at top of README
-
-### Documentation
-
-Comprehensive CI/CD documentation is available in `docs/cicd/`:
-
-- **[PIPELINE_ARCHITECTURE.md](docs/cicd/PIPELINE_ARCHITECTURE.md)** - Pipeline design, stages, and technical architecture
-- **[PIPELINE_GUIDE.md](docs/cicd/PIPELINE_GUIDE.md)** - User guide with troubleshooting and FAQs
-- **[INTERACTIVE_WALKTHROUGH.md](docs/cicd/INTERACTIVE_WALKTHROUGH.md)** - Hands-on tutorial for using the pipeline
-- **[DEPLOYMENT_RUNBOOK.md](docs/cicd/DEPLOYMENT_RUNBOOK.md)** - Deployment procedures and incident response
-- **[SECRETS_MANAGEMENT.md](docs/cicd/SECRETS_MANAGEMENT.md)** - Managing secrets and credentials safely
+- **Releases**: Automated release builds on tagged commits
 
 ### For Developers
 
@@ -160,23 +135,19 @@ npm run typecheck     # Verify TypeScript
 npm test              # Run tests
 ```
 
-**Pipeline will automatically**:
-- Run validation and tests on your branch
-- Build artifacts on main branch
-- Deploy to dev on main branch merge
-- Require manual trigger for staging/production
+### Quick Links
 
-### Deployment Environments
+- **View Workflows**: [Actions](https://github.com/StihelC/Complinist-OS/actions)
+- **Download Builds**: Available in workflow artifacts and [Releases](https://github.com/StihelC/Complinist-OS/releases)
+- **Pipeline Status**: See badge at top of README
 
-| Environment | Trigger | URL | Purpose |
-|-------------|---------|-----|---------|
-| Development | Automatic (main branch) | `dev.complinist.example.com` | Quick testing |
-| Staging | Manual | `staging.complinist.example.com` | Pre-production QA |
-| Production | Manual + Approval | `complinist.example.com` | Live users |
+### CI/CD Documentation
 
-### Getting Started with CI/CD
+Additional CI/CD documentation is available in `docs/cicd/`:
 
-New to the CI/CD pipeline? Start with the [Interactive Walkthrough](docs/cicd/INTERACTIVE_WALKTHROUGH.md) for a hands-on introduction.
+- **[PIPELINE_ARCHITECTURE.md](docs/cicd/PIPELINE_ARCHITECTURE.md)** - Pipeline design and technical architecture
+- **[SECRETS_MANAGEMENT.md](docs/cicd/SECRETS_MANAGEMENT.md)** - Managing secrets and credentials safely
+- **[DEPLOYMENT_RUNBOOK.md](docs/cicd/DEPLOYMENT_RUNBOOK.md)** - Deployment procedures
 
 ---
 
@@ -454,12 +425,21 @@ const response = await llm.generate(prompt);
 
 ## Contributing
 
-1. Follow TypeScript and React best practices
-2. Use Zustand for state management
-3. Keep components focused and composable
-4. Run `npm run lint` and `npm run format` before committing
-5. Document new modules in `docs/MODULE_GUIDE.md`
-6. Update dependency map in `docs/DEPENDENCY_MAP.md`
+We welcome contributions! Please follow these guidelines:
+
+1. **Fork** the repository and create your branch from `master`
+2. **Follow** TypeScript and React best practices
+3. **Use** Zustand for state management (see existing store patterns)
+4. **Run** `npm run lint && npm run typecheck && npm test` before submitting
+5. **Open a Pull Request** with a clear description of your changes
+6. **Keep PRs focused** - one feature or fix per PR
+
+### Branch Naming
+
+- `feature/description` - New features
+- `fix/description` - Bug fixes
+- `docs/description` - Documentation updates
+- `refactor/description` - Code refactoring
 
 ---
 
@@ -489,10 +469,11 @@ See `docs/TROUBLESHOOTING.md` for more details.
 
 ## License
 
-PROPRIETARY - See license file for details.
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.
 
 ---
 
 ## Support
 
-For issues, questions, or contributions, please contact: support@complinist.com
+- **Bug Reports & Feature Requests**: [GitHub Issues](https://github.com/StihelC/Complinist-OS/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/StihelC/Complinist-OS/discussions)
